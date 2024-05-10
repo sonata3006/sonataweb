@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-database.js"></script>
+    <script>
+      // Your web app's Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyAYthfuHN-lwbM1CBwsL44JE84RjnCLfSw",
+        authDomain: "sonataweb-b6910.firebaseapp.com",
+        projectId: "sonataweb-b6910",
+        storageBucket: "sonataweb-b6910.appspot.com",
+        messagingSenderId: "126681813273",
+        appId: "1:126681813273:web:cb40fd700d16ffc2897588",
+        measurementId: "G-VNSZ3B1TWY"
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+
+      // Initialize Database
+      const database = firebase.database();
+
+      // Function to display registered users
+      function displayUsers() {
+        const userList = document.getElementById("userList");
+        
+        database.ref('users').once('value', function(snapshot) {
+          snapshot.forEach(function(childSnapshot) {
+            const user = childSnapshot.val();
+            const listItem = document.createElement("li");
+            listItem.textContent = user.fullname + " - " + user.email;
+            userList.appendChild(listItem);
+          });
+        });
+      }
+      
+      window.onload = function() {
+        displayUsers();
+      };
+    </script>
+</head>
+<body>
+    <h2>Welcome to Dashboard</h2>
+    <p>You are logged in!</p>
+    <h3>Registered Users:</h3>
+    <ul id="userList"></ul>
+</body>
+</html>
